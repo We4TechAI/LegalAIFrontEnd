@@ -41,21 +41,25 @@ jobs:
       - name: Send build success message with download button to Google Chat
         if: success()
         run: |
-          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d '{
+          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d @- << EOF
+          {
             "cards": [{
               "header": {"title": "Build Succeeded", "subtitle": "Commit: ${{ github.sha }}"},
               "sections": [{
                 "widgets": [
                   {"textParagraph": {"text": "The build for the main branch has completed successfully!"}},
-                  {"buttons": [{"textButton": {"text": "Download Build", "onClick": {"openLink": {"url": "${{ steps.artifact-url.outputs.ARTIFACT_URL }}"}}}}]
+                  {"buttons": [{"textButton": {"text": "Download Build", "onClick": {"openLink": {"url": "${{ steps.artifact-url.outputs.ARTIFACT_URL }}"}}}}]}
                 ]
               }]
             }]
-          }'
+          }
+          EOF
 
       - name: Send build failure message to Google Chat
         if: failure()
         run: |
-          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d '{
+          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d @- << EOF
+          {
             "text": "Build failed for commit: ${{ github.sha }} on main branch! Check logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }'
+          }
+          EOF
