@@ -1,0 +1,61 @@
+name: Build and Share Project on Merge to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Archive build artifacts
+        run: zip -r build-artifacts.zip dist/  # Adjust 'dist/' to your build output directory
+
+      - name: Upload build artifacts
+        id: upload-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build-artifacts.zip
+
+      - name: Get artifact download URL
+        id: artifact-url
+        run: |
+          echo "ARTIFACT_URL=https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" >> $GITHUB_OUTPUT
+
+      - name: Send build success message with download button to Google Chat
+        if: success()
+        run: |
+          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d '{
+            "cards": [{
+              "header": {"title": "Build Succeeded", "subtitle": "Commit: ${{ github.sha }}"},
+              "sections": [{
+                "widgets": [
+                  {"textParagraph": {"text": "The build for the main branch has completed successfully!"}},
+                  {"buttons": [{"textButton": {"text": "Download Build", "onClick": {"openLink": {"url": "${{ steps.artifact-url.outputs.ARTIFACT_URL }}"}}}}]
+                ]
+              }]
+            }]
+          }'
+
+      - name: Send build failure message to Google Chat
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-Type: application/json' ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }} -d '{
+            "text": "Build failed for commit: ${{ github.sha }} on main branch! Check logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }'
