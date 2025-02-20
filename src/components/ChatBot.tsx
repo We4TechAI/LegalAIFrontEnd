@@ -21,7 +21,7 @@ export function ChatBot({ onClose }: ChatBotProps) {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://e703-106-222-237-219.ngrok-free.app/legal-query', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/legal-query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +31,8 @@ export function ChatBot({ onClose }: ChatBotProps) {
       });
 
       const data = await response.json();
-      setMessages(prev => [...prev, { text: data.response, isUser: false }]);
+      const formattedResponse = formatMessage(data.response);
+      setMessages(prev => [...prev, { text: formattedResponse, isUser: false }]);
     } catch (error) {
       setMessages(prev => [...prev, { 
         text: "I apologize, but I'm having trouble connecting to the server. Please try again later.", 
@@ -78,9 +79,7 @@ export function ChatBot({ onClose }: ChatBotProps) {
                     : 'bg-gray-100 text-gray-800'
                 }`}
               >
-                <p className="whitespace-pre-wrap">
-                  {message.isUser ? message.text : formatMessage(message.text)}
-                </p>
+                <p className="whitespace-pre-wrap">{message.text}</p>
               </div>
             </div>
           ))}
