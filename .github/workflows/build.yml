@@ -1,4 +1,4 @@
-name: Build React App on Merge
+name: Build Vite React App on Merge
 
 on:
   push:
@@ -20,14 +20,20 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Lint Code
+        run: npm run lint
+
+      - name: TypeScript Check
+        run: npx tsc --noEmit
+
       - name: Run Tests
         run: npm test
 
-      - name: Build React App
+      - name: Build Vite React App
         run: npm run build
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: react-build
-          path: build
+          name: vite-react-build
+          path: dist
