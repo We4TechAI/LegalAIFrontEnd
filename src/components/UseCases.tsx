@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 const useCases = [
   {
-    title: 'Tenant Rights',
-    description: 'Understand your rights and responsibilities as a tenant',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=500',
-    path: '/tenant-rights'
+    title: 'Trial Preparation Assistant',
+    description: 'AI-powered trial prep with witness simulation and strategy analysis',
+    image: 'https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?auto=format&fit=crop&q=80&w=500',
+    path: '/trial-prep'
   },
   {
     title: 'Contract Drafting',
@@ -32,16 +32,24 @@ export function UseCases() {
         <h2 className="text-3xl font-bold text-center mb-12">Real-World Applications</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {useCases.map((useCase, index) => (
-            <div key={index} className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <img src={useCase.image} alt={useCase.title} className="w-full h-48 object-cover" />
+            <div key={index} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="relative">
+                <img 
+                  src={useCase.image} 
+                  alt={useCase.title} 
+                  className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">{useCase.title}</h3>
                 <p className="text-gray-600 mb-4">{useCase.description}</p>
                 <button 
-                  className="text-blue-600 font-semibold flex items-center hover:text-blue-700"
+                  className="text-blue-600 font-semibold flex items-center hover:text-blue-700 group"
                   onClick={() => navigate(useCase.path)}
                 >
-                  Learn More <ChevronRight className="w-4 h-4 ml-1" />
+                  Learn More 
+                  <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
             </div>
