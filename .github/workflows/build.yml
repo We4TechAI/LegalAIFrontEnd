@@ -28,9 +28,3 @@ jobs:
         with:
           name: vite-react-build
           path: dist
-
-      - name: Notify Google Chat
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"text": "Vite React App build complete. Artifacts have been uploaded."}' \
-          ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
