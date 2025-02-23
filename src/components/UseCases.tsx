@@ -20,6 +20,24 @@ const useCases = [
     description: 'Search and connect with experienced lawyers in your area',
     image: 'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&q=80&w=500',
     path: '/find-lawyer'
+  },
+  {
+    title: 'Legal News and Updates',
+    description: 'Stay informed with AI-curated legal news and changes',
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=500',
+    path: '/legal-news'
+  },
+  {
+    title: 'Legal Research Assistant',
+    description: 'AI-powered research for case law, statutes, and regulations',
+    image: 'https://images.unsplash.com/photo-1605796348246-71fa6b5a479b?auto=format&fit=crop&q=80&w=500',
+    path: '/legal-research'
+  },
+  {
+    title: 'Client Intake Assessment',
+    description: 'Smart questionnaire with AI analysis for case evaluation',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=500',
+    path: '/client-intake'
   }
 ];
 
@@ -30,7 +48,7 @@ export function UseCases() {
     <section id="use-cases" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-12">Real-World Applications</h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {useCases.map((useCase, index) => (
             <div key={index} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="relative">

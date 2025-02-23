@@ -9,6 +9,9 @@ import { Footer } from './components/Footer';
 import { ChatBot } from './components/ChatBot';
 import { ContractDrafting } from './components/ContractDrafting';
 import { FindLawyer } from './components/FindLawyer';
+import { LegalNews } from './components/LegalNews';
+import { LegalResearch } from './components/LegalResearch';
+import { ClientIntake } from './components/ClientIntake';
 
 function App() {
   const [showChat, setShowChat] = useState(false);
@@ -19,6 +22,9 @@ function App() {
         <Routes>
           <Route path="/contract-drafting" element={<ContractDrafting />} />
           <Route path="/find-lawyer" element={<FindLawyer />} />
+          <Route path="/legal-news" element={<LegalNews />} />
+          <Route path="/legal-research" element={<LegalResearch />} />
+          <Route path="/client-intake" element={<ClientIntake />} />
           <Route path="/" element={
             <>
               <Navigation onStartChat={() => setShowChat(true)} />
@@ -36,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
